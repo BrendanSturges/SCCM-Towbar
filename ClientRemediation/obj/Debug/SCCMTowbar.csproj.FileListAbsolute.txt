@@ -1,1 +1,0 @@
-D:\Code Repo\SCCM Towbar\ClientRemediation\bin\Debug\ClientRemediation.exe.config
