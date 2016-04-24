@@ -1,0 +1,81 @@
+﻿<Window x:Class="SCCMTowbar.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SCCMTowbar"
+        mc:Ignorable="d"
+        Title="SCCM Towbar" Height="381.077" Width="577.225" ResizeMode="NoResize">
+    <Grid ForceCursor="True" Margin="0,0,0,4">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="76*"/>
+            <ColumnDefinition Width="224*"/>
+            <ColumnDefinition Width="7*"/>
+            <ColumnDefinition Width="264*"/>
+        </Grid.ColumnDefinitions>
+
+        <Button x:Name="Start_Button" Content="Start" HorizontalAlignment="Left" Margin="23.97,285,0,0" VerticalAlignment="Top" Width="75" Click="button_Click" Height="22" RenderTransformOrigin="0.438,0.535" Grid.Column="1"/>
+        <TextBox x:Name="Computer_List" HorizontalAlignment="Left" Height="150" TextWrapping="Wrap" Text="Client Name" VerticalAlignment="Top" Width="243" Margin="10,26,0,0" AcceptsReturn="True" VerticalScrollBarVisibility="Auto" Grid.Column="3" GotFocus="Computer_List_GotFocus"/>
+        <TextBox x:Name="Console" HorizontalAlignment="Left" Height="150" Margin="8,187,0,0" TextWrapping="Wrap" Text="Console" VerticalAlignment="Top" Width="247" Grid.Column="3" IsReadOnly="True" VerticalScrollBarVisibility="Auto"/>
+        <Menu x:Name="menu" HorizontalAlignment="Left" Height="21" VerticalAlignment="Top" Width="571" Grid.ColumnSpan="4">
+            <MenuItem Header="File">
+                <MenuItem Header="New List" Click="File_NewList_Click" />
+                <Separator />
+                <MenuItem Header="Open List" Click="File_OpenFile_Click"/>
+                <Separator />
+                <MenuItem Header="Save List" Click="File_Save_Computer_List_Click"/>
+                <Separator />
+                <MenuItem Header="Export Console" Click="File_Export_Console_Click"/>
+                <Separator />
+                <MenuItem Header="Clear Console" Click="File_ClearCon_Click" />
+                <Separator />
+                <MenuItem Header="Quit" Click="File_Quit_Click"/>
+
+            </MenuItem>
+            <MenuItem Header="Options">
+                <MenuItem Header="✈" Click="Options_Plane_Click" />
+                <MenuItem Header="Uncheck All" Click="Options_Uncheck_All_Click"/>
+
+            </MenuItem>
+            <MenuItem Header="Help">
+                <MenuItem Header="About" Click="Help_About_Click"/>
+            </MenuItem>
+
+        </Menu>
+        <TabControl x:Name="tabControl" HorizontalAlignment="Left" Height="224" Margin="4,26,0,0" VerticalAlignment="Top" Width="286" Grid.ColumnSpan="2">
+            <TabItem Header="Discovery" Height="23" VerticalAlignment="Top">
+                <Grid Background="#FFE5E5E5" Name="Discovery">
+                    <CheckBox x:Name="Ping_Status" Content="Ping" HorizontalAlignment="Left" Margin="10,29,0,0" VerticalAlignment="Top" Width="194"/>
+                    <CheckBox x:Name="Reboot_Status" Content="Check Reboot Status" HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top" Width="194"/>
+                    <CheckBox x:Name="Check_DNS_Status" Content="Check DNS Status" HorizontalAlignment="Left" Margin="10,71,0,0" VerticalAlignment="Top" Width="194"/>
+                    <CheckBox x:Name="Check_SCCM_Site" Content="Get Assigned Site" HorizontalAlignment="Left" Margin="10,92,0,0" VerticalAlignment="Top" Width="194"/>
+                    <CheckBox x:Name="Get_FQDN" Content="Get FQDN" HorizontalAlignment="Left" Margin="10,113,0,0" VerticalAlignment="Top" Width="182"/>
+                    <CheckBox x:Name="check_uptime" Content="Check System Uptime" HorizontalAlignment="Left" Margin="10,134,0,0" VerticalAlignment="Top" Width="140"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Remediation" Margin="0,0,-4,-2">
+                <Grid Background="#FFE5E5E5">
+                    <CheckBox x:Name="Software_Inventory" Content="Trigger Software Inventory Cycle" HorizontalAlignment="Left" Margin="24,21,0,0" VerticalAlignment="Top" Checked="checkBox_Checked" Width="200" Height="16"/>
+                    <CheckBox x:Name="Hardware_Inventory" Content="Trigger Hardware Inventory Cycle" HorizontalAlignment="Left" Margin="24,37,0,0" VerticalAlignment="Top" Checked="checkBox_Checked" Width="200" Height="16" RenderTransformOrigin="0.503,2.112"/>
+                    <CheckBox x:Name="Heartbeat" Content="Trigger Heartbeat" HorizontalAlignment="Left" Margin="24,117,0,0" VerticalAlignment="Top" Checked="checkBox_Checked" Width="163" Height="16"/>
+                    <CheckBox x:Name="Request_Machine_Policy" Content="Request Machine Policy" HorizontalAlignment="Left" Margin="24,101,0,0" VerticalAlignment="Top" Checked="checkBox_Checked" Width="163" Height="16"/>
+                    <CheckBox x:Name="Force_Update_Scan" Content="Force Update Scan" HorizontalAlignment="Left" Margin="24,85,0,0" VerticalAlignment="Top" Checked="checkBox_Checked" Width="163" Height="16"/>
+                    <CheckBox x:Name="Refresh_Location_Services" Content="Refresh Location Services" HorizontalAlignment="Left" Margin="24,69,0,0" VerticalAlignment="Top" Checked="checkBox_Checked" Width="163" Height="16"/>
+                    <CheckBox x:Name="Evaluate_Machine_Policy_Assignments" Content="Evaluate Machine Policy Assignments" HorizontalAlignment="Left" Margin="24,53,0,0" VerticalAlignment="Top" Checked="checkBox_Checked" Width="220" Height="16"/>
+                    <!--<CheckBox x:Name="Push_Client" Content="Install Client" HorizontalAlignment="Left" Margin="24,147,0,0" VerticalAlignment="Top" Width="200"/> -->
+                </Grid>
+            </TabItem>
+            <TabItem Header="Patching" Margin="-2,-2,-2,-1">
+                <Grid Background="#FFE5E5E5">
+                    <CheckBox x:Name="Get_Available_Patches" Content="Get Available Patches" HorizontalAlignment="Left" Margin="35,25,0,0" VerticalAlignment="Top"/>
+                    <CheckBox x:Name="Get_Failed_Patches" Content="Get Failed Patches" HorizontalAlignment="Left" Margin="35,46,0,0" VerticalAlignment="Top"/>
+                    <CheckBox x:Name="Apply_Available_Patches" Content="Apply All Available Patches" HorizontalAlignment="Left" Margin="35,67,0,0" VerticalAlignment="Top"/>
+                    <!-- <CheckBox x:Name="Reboot_All_Servers" Content="! REBOOT ALL SERVERS IN SERVER LIST ! [TEST]" HorizontalAlignment="Left" Margin="10,109,0,0" VerticalAlignment="Top"/> -->
+
+                    <CheckBox x:Name="Get_Applied_Patches" Content="Get Applied Patches for past          day(s)" HorizontalAlignment="Left" Margin="10,88,0,0" VerticalAlignment="Top" Width="243"/>
+                    <TextBox x:Name="days" HorizontalAlignment="Left" Height="23" Margin="180,83,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="29"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>
