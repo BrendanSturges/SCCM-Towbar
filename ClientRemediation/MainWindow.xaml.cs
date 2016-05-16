@@ -199,7 +199,11 @@ namespace SCCMTowbar
                     }
 
                 }
-                Console.AppendText(computerName + ": Update " + index + " of " + col.Count + " completed" + Environment.NewLine);
+                System.Windows.Application.Current.Dispatcher.Invoke((Action)(() =>
+                {
+                    Console.AppendText(computerName + ": Update " + index + " of " + col.Count + " completed" + Environment.NewLine);
+                }));
+
                 index++;
             }
         }
