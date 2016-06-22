@@ -16,7 +16,7 @@ using System.ComponentModel;
 
 
 
-namespace SCCMTowbar
+namespace ClientRemediation
 {
     public partial class MainWindow : Window
     {
@@ -54,14 +54,22 @@ namespace SCCMTowbar
 
         public void checkSite(string computerName)
         {
-            ManagementScope scp = new ManagementScope(string.Format(@"\\{0}\root\ccm", computerName));
-            ManagementClass cls = new ManagementClass(scp.Path.Path, "sms_client", null);
+            try {
+                ManagementScope scp = new ManagementScope(string.Format(@"\\{0}\root\ccm", computerName));
+                ManagementClass cls = new ManagementClass(scp.Path.Path, "sms_client", null);
 
-            // Get current site code.
-            ManagementBaseObject outSiteParams = cls.InvokeMethod("GetAssignedSite", null, null);
+                // Get current site code.
+                ManagementBaseObject outSiteParams = cls.InvokeMethod("GetAssignedSite", null, null);
 
-            // Display current site code.
-            Console.AppendText(computerName + " Site Code: " + outSiteParams["sSiteCode"].ToString() + Environment.NewLine);
+                // Display current site code.
+                Console.AppendText(computerName + " Site Code: " + outSiteParams["sSiteCode"].ToString() + Environment.NewLine);
+            }
+            catch {
+
+                Console.AppendText(computerName + ": Error!  Client may not be installed or you do not have access" + Environment.NewLine);
+
+            }
+
         }
 
         public void checkReboot(string computerName)
@@ -365,7 +373,7 @@ namespace SCCMTowbar
         private void Help_About_Click(object sender, RoutedEventArgs e)
         {
             //help file popup so users know who to blame
-            System.Windows.Forms.MessageBox.Show("Version 1.3" + Environment.NewLine + "Send your complaints to: brendansturges@gmail.com");
+            System.Windows.Forms.MessageBox.Show("Version 1.3" + Environment.NewLine + "Send your complaints to: BrendanSturges@Gmail.com");
         }
 
         private void Options_Plane_Click(object sender, RoutedEventArgs e)
@@ -415,8 +423,6 @@ namespace SCCMTowbar
             SQLWRITER
             REPORTWRITER
 
-            SMS_SITE_SQL_BACKUP_PRIMARY***
-            SMS_SITE_SQL_BACKUP_PRIMARY_DEV***
             */
 
         }
@@ -682,19 +688,12 @@ namespace SCCMTowbar
                     if (pingMe == true)
                     {
                         string domain = getDomain(server, 1);
-                        /*
-                        if (domain == "***DEV***")
+
+                        using (new WaitCursor())
                         {
-                            Console.AppendText(domain + " is not supported yet for getAppliedPatches(FQDN, daysConv)" + Environment.NewLine);
-                        }
-                        
-                        else
-                        {*/
-            using (new WaitCursor())
-                            {
                                 getAppliedPatches(FQDN, daysConv);
-                            }
-                        //}
+                        }
+
                     }
                     else
                     {
@@ -727,11 +726,6 @@ namespace SCCMTowbar
                     
                 }
             }
-        }
-
-        private void Get_Failed_Patches_Checked(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }
